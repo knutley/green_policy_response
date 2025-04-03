@@ -10,7 +10,7 @@ set -e  # exit on error
 # ==== CONFIGURATION ====
 # Determine R version to construct user lib path
 R_MAJOR=$(Rscript -e 'cat(R.version$major)')
-R_MINOR=$(Rscript -e 'cat(strsplit(R.version$minor, "\\.")[[1]][1])')  # just major.minor
+R_MINOR=$(Rscript -e 'cat(strsplit(R.version$minor, "[.]")[[1]][1])')
 R_VERSION="${R_MAJOR}.${R_MINOR}"
 USER_LIB="${HOME}/R/x86_64-pc-linux-gnu-library/${R_VERSION}"
 
@@ -49,12 +49,13 @@ echo "Checking for renv..."
 Rscript -e 'if (!requireNamespace("renv", quietly = TRUE)) install.packages("renv", repos = "https://cloud.r-project.org", lib = Sys.getenv("R_LIBS_USER"))'
 
 # ==== STEP 4: Initialise or activate renv ====
-if [ ! -d "renv" ]; then
-    echo "Setting up renv virtual environment..."
-    Rscript -e 'renv::init(bare = TRUE)'
-else
-    echo "Using existing renv environment."
+if [ ! -f "renv/activate.R" ]; then
+    echo "Setting up renv virtual environment (activate.R not found)..."
+    Rscript -e 'renv::init(bare = TRUE, force = TRUE)'
 fi
+
+echo "Using renv environment..."
+
 
 # ==== STEP 5: Install dependencies using renv ====
 echo "Installing required R packages with renv..."

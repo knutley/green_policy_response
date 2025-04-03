@@ -18,7 +18,7 @@ Initial focus:
 - United Kingdom (filtered dataset already available)  
 - New Zealand (pending)
 
-Filtering is handled by `src/filter_speeches.R` using parallel processing for performance. This reduces over 1 million rows to ~148k in the UK dataset.
+Filtering is handled by `src/filter_speeches.R` using sequential processing with progress tracking. This reduces over 1 million rows to ~148k in the UK dataset.
 
 > Run via:
 > ```bash
@@ -72,12 +72,14 @@ green_policy_response/
 │   ├── translate.R
 │   ├── topic_modeling.R
 │   └── utils/
-│       └── load_keywords.R
+│       ├── load_keywords.R
+│       └── download_if_missing.R
 │
 ├── data/
 │   ├── raw/           # Large .rds files (excluded from GitHub)
 │   ├── processed/     # Filtered outputs
-│   └── keywords.csv   # Environmental keywords (1 per row)
+│   ├── keywords.csv   # Environmental keywords (1 per row)
+│   └── required_files.csv # File metadata for auto-downloading
 │
 ├── test/              # Tests (planned)
 ├── .gitignore
@@ -96,7 +98,7 @@ Install R dependencies:
 source("requirements.R")
 ```
 
-If you'd like reproducibility/isolation, use `renv::init()` and commit the lockfile.
+For reproducibility/isolation, the project uses `renv` which is initialized and managed by the `run.sh` script.
 
 ---
 
@@ -111,7 +113,7 @@ Start with UK and New Zealand.
 3. Apply the same process to other countries as translation and keyword lists become available.
 
 📎 Link to filtered UK dataset:
-[UK Filtered Data via OneDrive](https://onedrive.com)
+[UK Filtered Data via OneDrive](https://1drv.ms/f/c/605baf58dcdf9007/Et31dgk3_qFGqOZd09CTbbwBdOFHJQOdem-p2aj9JxmQgA?e=Kz9Af3)
 
 ### 🔍 Phase 2: Pilot Topic Modelling in the UK
 
@@ -124,10 +126,10 @@ Start topic modelling using the filtered UK data first. Once refined, apply it t
 - What improves efficiency?
 
 **Technical Notes:**
-- Use parallelisation wherever possible (`furrr` is used in filtering).
 - Work on a small subset before scaling up.
 - Pre-cluster at a high level to reduce noise before deeper modelling.
 - Keep a record of preprocessing and filtering decisions for reproducibility.
+- Think carefully about segmenting and cleaning the data.
 
 Contact Elisa with any blockers or questions.
 
@@ -138,9 +140,9 @@ Contact Elisa with any blockers or questions.
 Due to large file sizes, raw .rds datasets are not pushed to GitHub.
 
 **OneDrive Storage (shared):**
-[Access Raw + Filtered Data Here](https://onedrive.com)
+[Access Raw + Filtered Data Here](https://1drv.ms/f/c/605baf58dcdf9007/Et31dgk3_qFGqOZd09CTbbwBdOFHJQOdem-p2aj9JxmQgA?e=Kz9Af3)
 
-Please download and place .rds files in `data/raw/` locally. `.gitignore` ensures they are not committed.
+Please download and place .rds files in `data/raw/` locally. `.gitignore` ensures they are not committed. Alternatively, the pipeline can automatically download required files from Harvard Dataverse.
 
 ---
 
