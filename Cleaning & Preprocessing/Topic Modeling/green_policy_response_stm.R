@@ -173,10 +173,17 @@ print(UK_topic_labels$prob)
 # Visualising the correlation between topics:
 topicCorr(UK_stm_model)
 
-# Longer way around: 
-# topic_proportions <- UK_stm_model$theta
-# cor_matrix <- cor(topic_proportions)
-# print(cor_matrix)
+# Create a topic probability summary table:
+topic_proportions <- colMeans(UK_stm_model$theta)
+topic_labels <- apply(UK_topic_labels$frex, 1, paste, collapse = ", ")
+topic_summary <- data.frame(
+  Topic = 1:length(topic_proportions),
+  Label = topic_labels,
+  Probability = topic_proportions
+)
+topic_summary <- topic_summary[order(topic_summary$Probability, decreasing = TRUE), ]
+rownames(topic_summary) <- NULL
+kable(topic_summary, digits = 3, caption = "Topics from Parliamentary Speeches (Ordered by Probability)")
 
 ################################################################################
 
@@ -265,8 +272,14 @@ print(UK_agenda_topic_labels$prob)
 # Visualising the correlation between topics:
 topicCorr(UK_agenda_stm_model)
 
-# Longer way around: 
-# topic_proportions <- UK_agenda_stm_model$theta
-# cor_matrix <- cor(topic_proportions)
-# print(cor_matrix)
-
+# Create a topic probability summary table for agenda
+agenda_topic_proportions <- colMeans(UK_agenda_stm_model$theta)
+agenda_topic_labels <- apply(UK_agenda_topic_labels$frex, 1, paste, collapse = ", ")
+agenda_topic_summary <- data.frame(
+  Topic = 1:length(agenda_topic_proportions),
+  Label = agenda_topic_labels,
+  Probability = agenda_topic_proportions
+)
+agenda_topic_summary <- agenda_topic_summary[order(agenda_topic_summary$Probability, decreasing = TRUE), ]
+rownames(agenda_topic_summary) <- NULL
+kable(agenda_topic_summary, digits = 3, caption = "Topics from Parliamentary Agenda (Ordered by Probability)")
