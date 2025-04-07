@@ -183,64 +183,90 @@ topicCorr(UK_stm_model)
 # Right, so having looked at the text itself, we're moving on to the set agenda
 # topic in the ParlSpeech V5 data. 
 
-run_topic_modelling <- function(filtered_path = "~/Documents/GitHub/green_policy_response/Cleaning & Preprocessing/Initial Filtering/filtered_UK (1).rds") {
-  message("[1/3] Checking for filtered data file...")
-  if (!file.exists(filtered_path)) {
-    message("Error: Filtered data file not found at: ", filtered_path)
-    message("You need to run the filtering stage first:")
-    message("  ./run.sh filter")
-    message("This will generate the filtered data file required for topic modeling.")
-    return(NULL)
-  }
-  
-  message("[2/3] Loading filtered data...")
-  tryCatch({
-    df <- readRDS(filtered_path)
-    message("Successfully loaded data with ", nrow(df), " filtered rows from ", filtered_path)
-    
-    # Check if the dataframe has the expected structure
-    if (!("text" %in% names(df))) {
-      message("Warning: The RDS file does not contain a 'text' column, which is needed for topic modeling.")
-      return(NULL)
-    }
-    
-    if (nrow(df) == 0) {
-      message("Warning: The filtered dataframe is empty. No data to model.")
-      return(NULL)
-    }
-    
-    message("[3/3] Topic modeling (stub)...")
-    message("Future implementation will include:")
-    message("  - Text preprocessing (stopword removal, lemmatization)")
-    message("  - Document-term matrix creation")
-    message("  - Topic model selection (STM, LDA, etc.)")
-    message("  - Model parameter tuning")
-    message("  - Topic visualization and interpretation")
-    message("  - Topic classification of speeches")
-    
-    # Random sample of text for preview
-    if (nrow(df) > 0) {
-      sample_idx <- sample(1:nrow(df), min(3, nrow(df)))
-      message("\nSample texts that will be used for topic modeling:")
-      for (i in 1:length(sample_idx)) {
-        sample_text <- df$text[sample_idx[i]]
-        if (!is.na(sample_text) && nchar(sample_text) > 0) {
-          sample_preview <- substr(sample_text, 1, 150)
-          message(i, ": ", sample_preview, "...")
-        }
-      }
-    }
-    
-    message("\n✅ Topic modeling preview complete. Full implementation coming soon.")
-    
-  }, error = function(e) {
-    message("Error loading data: ", e$message)
-    message("The file may be corrupted or in an unexpected format.")
-    return(NULL)
-  })
-  
-  return(NULL)
-} 
+################################################################################
 
-result <- run_topic_modelling()
-view(result)
+UK_agenda_corpus <- quanteda::corpus(df$agenda)
+
+# Creating a DFM:  
+
+# Tokenising the corpus: 
+UK_token_agenda <- quanteda::tokens(UK_agenda_corpus, remove_punct = TRUE, remove_numbers = TRUE)
+
+# Building the document-feature matrix: 
+UK_dfm_agenda <- dfm(UK_token_agenda)
+
+# Going to go ahead and plot frequency and see what happens. 
+
+textplot_wordcloud(UK_dfm_agenda, random_order = FALSE, rotation = 0.25,
+                   color = RColorBrewer::brewer.pal(8, "Dark2"))
+
+# Read the stopwords CSV file: 
+UK_agenda_stopwords <- read_csv("~/Downloads/non_related_words.csv")
+
+# Create a complete vector of stopwords:
+UK_agenda_stopwords_vector <- c(UK_agenda_stopwords$`Non-Climate-Related Words`, stopwords("en"), 'too', 'why') # Basically,
+# just adding any additional words I missed here. (Note to Katie: you can add to this later!)
+
+# I tried to run this with the code below, but the DFM creation was running out 
+# of memory because there were too many documents. So, I decided to break it down 
+# even more. 
+
+# UK_dfm_speeches_corpus <- UK_corpus %>% 
+#   quanteda::tokens(remove_punct = TRUE, remove_symbols = TRUE, remove_numbers = TRUE) %>%
+#   quanteda::tokens_remove(UK_custom_stopwords) %>%
+#   quanteda::tokens_wordstem() %>%
+#   quanteda::tokens_ngrams(n = c(1, 2)) %>%
+#   dfm() %>%
+#   dfm_tolower() %>%
+#   dfm_trim(min_termfreq = 5, min_docfreq = 0.0025, docfreq_type = "prop")
+
+# Process tokens first:
+UK_agenda_tokens <- UK_agenda_corpus %>% 
+  quanteda::tokens(remove_punct = TRUE, remove_symbols = TRUE, remove_numbers = TRUE) %>%
+  quanteda::tokens_remove(UK_agenda_stopwords_vector) %>%
+  quanteda::tokens_wordstem()
+
+# Create n-grams with more memory-efficient approach:  
+UK_agenda_tokens_ngrams <- quanteda::tokens_ngrams(UK_agenda_tokens, n = c(1, 2))
+
+# Create DFM with early trimming to reduce size:
+UK_dfm_agenda_corpus <- UK_agenda_tokens_ngrams %>%
+  dfm() %>%
+  dfm_tolower() %>%
+  # Add more aggressive trimming if needed: 
+  dfm_trim(min_termfreq = 10, min_docfreq = 0.005, docfreq_type = "prop")
+
+View(UK_dfm_agenda_corpus)
+
+textplot_wordcloud(UK_dfm_agenda_corpus, random_order = FALSE, rotation = 0.25, 
+                   color = RColorBrewer::brewer.pal(8, "Dark2"),max_words =100,max_size = 3)
+
+# 6. Run the Text Structural Topic Model (STM) # 
+
+# Create metadata: 
+UK_agenda_metadata <- df %>%
+  select(party, speaker, date)
+rownames(UK_agenda_metadata) <- docnames(UK_dfm_agenda_corpus)
+
+# Now run STM with the proper metadata: 
+set.seed(123)
+UK_agenda_stm_model <- stm(UK_dfm_agenda_corpus, K = 20, max.em.its = 10, data = UK_agenda_metadata)
+
+# Plot STM: 
+plot(UK_agenda_stm_model)
+
+# Examine the top words from each topic: 
+UK_agenda_topic_labels <- labelTopics(UK_agenda_stm_model)
+view(UK_agenda_topic_labels)
+
+# Print the words for each topic: 
+print(UK_agenda_topic_labels$prob)
+
+# Visualising the correlation between topics:
+topicCorr(UK_agenda_stm_model)
+
+# Longer way around: 
+# topic_proportions <- UK_agenda_stm_model$theta
+# cor_matrix <- cor(topic_proportions)
+# print(cor_matrix)
+
