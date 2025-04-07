@@ -183,7 +183,7 @@ topic_summary <- data.frame(
 )
 topic_summary <- topic_summary[order(topic_summary$Probability, decreasing = TRUE), ]
 rownames(topic_summary) <- NULL
-kable(topic_summary, digits = 3, caption = "Topics from Parliamentary Speeches (Ordered by Probability)")
+view(topic_summary)
 
 ################################################################################
 
@@ -282,7 +282,7 @@ agenda_topic_summary <- data.frame(
 )
 agenda_topic_summary <- agenda_topic_summary[order(agenda_topic_summary$Probability, decreasing = TRUE), ]
 rownames(agenda_topic_summary) <- NULL
-kable(agenda_topic_summary, digits = 3, caption = "Topics from Parliamentary Agenda (Ordered by Probability)")
+View(agenda_topic_summary)
 
 # Key Findings:
 
