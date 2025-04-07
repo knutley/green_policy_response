@@ -283,3 +283,48 @@ agenda_topic_summary <- data.frame(
 agenda_topic_summary <- agenda_topic_summary[order(agenda_topic_summary$Probability, decreasing = TRUE), ]
 rownames(agenda_topic_summary) <- NULL
 kable(agenda_topic_summary, digits = 3, caption = "Topics from Parliamentary Agenda (Ordered by Probability)")
+
+# Key Findings:
+
+# Energy and Climate Change Dominance: Topic 17 (9.7% probability) is the most prevalent 
+# topic, focusing directly on energy policy, climate change, and carbon issues. This 
+# suggests that explicit climate discussions form the core of environmental policy discourse.
+# Environmental and Rural Affairs: Topic 10 (9.3%) shows strong connections between 
+# environmental concerns and food/rural affairs. This indicates that climate policy
+# is closely linked to agricultural and food security considerations in parliamentary 
+# discussions. Public Health Connection: Topic 12 (8%) reveals an interesting relationship 
+# between health/social care and environmental issues. This suggests recognition of
+# the health implications of climate change in parliamentary discourse. Defense and 
+# Social Welfare: Topic 11 (7%) combines defense planning with social welfare and 
+# power considerations, potentially indicating discussions around energy security 
+# and its social implications. Education and Innovation: Topic 5 (6.5%) links education,
+# industry innovation, and emissions reduction, suggesting a focus on developing 
+# future solutions and technological approaches to climate challenges.
+
+# Broader Patterns:
+  
+# Integration across policy domains: Climate issues appear across multiple policy areas 
+# rather than being siloed, showing how environmental concerns intersect with health, 
+# defense, education, and economic policies.
+# European and international context: Several topics (8, 4) reference the EU, Commonwealth,
+# and international frameworks, indicating the importance of international cooperation 
+# in climate policy discussions.
+# Regional dimensions: References to Scotland, Northern Ireland, Wales, and regional 
+# development appear in multiple topics, suggesting geographic variation in climate 
+# policy approaches.
+# Economic considerations: Terms like "treasury," "financial," "investment," and 
+# "economy" across multiple topics demonstrate how climate discussions are framed 
+# in economic terms.
+
+# Less Prominent Areas:
+  
+# Topics related to work and pensions (Topic 9), culture and media (Topic 14), and
+# Northern Ireland specifically (Topic 13) show lower probabilities, suggesting 
+# these areas have less direct connection to climate discourse in Parliament.
+
+# Conclusion: 
+
+# This analysis reveals that climate change in UK parliamentary discourse is not 
+# treated as an isolated environmental issue but is integrated into broader policy 
+# discussions spanning energy security, public health, rural affairs, education, 
+# and international relations.
