@@ -8,10 +8,13 @@ required_packages <- c(
   "testthat",
   "progressr",
   "progress",
-  "future.apply"
+  "future.apply",
+  "tidyverse",
+  "tidytext",
+  "topicmodels",
+  "reshape2"
 )
 
-# Install any packages that are not already installed
 installed <- installed.packages()[, "Package"]
 to_install <- setdiff(required_packages, installed)
 

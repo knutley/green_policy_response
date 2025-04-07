@@ -1,69 +1,73 @@
-#' Topic Modeling Pipeline (Stub)
-#' 
-#' Placeholder function for topic modeling using pre-filtered speeches.
-#' Will later be extended to include model selection, preprocessing, 
-#' tokenisation, clustering, etc.
+#' Topic Modeling Pipeline
+#'
+#' Processes filtered speeches into topics via LDA:
+#'   - Tokenization and cleaning (stopwords, numbers)
+#'   - Document-Term Matrix (DTM) creation
+#'   - LDA model fitting
+#'   - Export of top terms per topic and topic assignments per document
 #'
 #' @param filtered_path Path to the filtered RDS file
-#' @return NULL (in the future, will return topic model results)
+#' @return NULL (results saved to CSV)
 #'
-#' Author: Stub by Aarushi Sharma, based on project notes from Elisa D'Amico
+#' Author: Aarushi Sharma, April 2025
 
 run_topic_modelling <- function(filtered_path = "data/processed/filtered_UK.rds") {
-  message("[1/3] Checking for filtered data file...")
+  # Load required packages
+  library(tidyverse)
+  library(tidytext)
+  library(stringr)
+  library(topicmodels)
+  library(reshape2)
+
+  # Output paths
+  lda_top_terms_csv <- "data/processed/lda_topics.csv"
+  lda_doc_topics_csv <- "data/processed/lda_assignments.csv"
+
+  message("[1/4] Loading filtered data...")
   if (!file.exists(filtered_path)) {
-    message("Error: Filtered data file not found at: ", filtered_path)
-    message("You need to run the filtering stage first:")
-    message("  ./run.sh filter")
-    message("This will generate the filtered data file required for topic modeling.")
-    return(NULL)
+    stop("Filtered data not found at ", filtered_path, "\nRun: ./run.sh filter")
   }
-  
-  message("[2/3] Loading filtered data...")
-  tryCatch({
-    df <- readRDS(filtered_path)
-    message("Successfully loaded data with ", nrow(df), " filtered rows from ", filtered_path)
-    
-    # Check if the dataframe has the expected structure
-    if (!("text" %in% names(df))) {
-      message("Warning: The RDS file does not contain a 'text' column, which is needed for topic modeling.")
-      return(NULL)
-    }
-    
-    if (nrow(df) == 0) {
-      message("Warning: The filtered dataframe is empty. No data to model.")
-      return(NULL)
-    }
-    
-    message("[3/3] Topic modeling (stub)...")
-    message("Future implementation will include:")
-    message("  - Text preprocessing (stopword removal, lemmatization)")
-    message("  - Document-term matrix creation")
-    message("  - Topic model selection (STM, LDA, etc.)")
-    message("  - Model parameter tuning")
-    message("  - Topic visualization and interpretation")
-    message("  - Topic classification of speeches")
-    
-    # Random sample of text for preview
-    if (nrow(df) > 0) {
-      sample_idx <- sample(1:nrow(df), min(3, nrow(df)))
-      message("\nSample texts that will be used for topic modeling:")
-      for (i in 1:length(sample_idx)) {
-        sample_text <- df$text[sample_idx[i]]
-        if (!is.na(sample_text) && nchar(sample_text) > 0) {
-          sample_preview <- substr(sample_text, 1, 150)
-          message(i, ": ", sample_preview, "...")
-        }
-      }
-    }
-    
-    message("\n✅ Topic modeling preview complete. Full implementation coming soon.")
-    
-  }, error = function(e) {
-    message("Error loading data: ", e$message)
-    message("The file may be corrupted or in an unexpected format.")
-    return(NULL)
-  })
-  
-  return(NULL)
+
+  df <- readRDS(filtered_path)
+  if (!"text" %in% names(df)) stop("Filtered data must contain a 'text' column.")
+  if (nrow(df) == 0) stop("Filtered data is empty.")
+
+  df <- df %>% mutate(doc_id = row_number())
+
+  message("[2/4] Tokenizing and cleaning text...")
+  tokenised <- df %>%
+    select(doc_id, text) %>%
+    mutate(text = str_to_lower(text)) %>%
+    unnest_tokens(word, text) %>%
+    anti_join(stop_words, by = "word") %>%
+    filter(!str_detect(word, "^[0-9]+$"))
+
+  message("[3/4] Building DTM and running LDA...")
+  dtm_counts <- tokenised %>% count(doc_id, word, sort = TRUE)
+  dtm <- cast_dtm(dtm_counts, document = doc_id, term = word, value = n)
+
+  k <- 15  # Number of topics
+  set.seed(42)
+  lda_model <- LDA(dtm, k = k, control = list(seed = 42))
+
+  message("   LDA model fit with ", k, " topics.")
+
+  message("[4/4] Exporting results...")
+
+  top_terms <- tidy(lda_model, matrix = "beta") %>%
+    group_by(topic) %>%
+    slice_max(beta, n = 10) %>%
+    ungroup() %>%
+    arrange(topic, -beta)
+  write_csv(top_terms, lda_top_terms_csv)
+
+  doc_topics <- tidy(lda_model, matrix = "gamma") %>%
+    group_by(document) %>%
+    slice_max(order_by = gamma, n = 1) %>%
+    ungroup()
+  write_csv(doc_topics, lda_doc_topics_csv)
+
+  message("\n✅ Topic modeling complete.")
+  message("Top terms saved to: ", lda_top_terms_csv)
+  message("Topic assignments saved to: ", lda_doc_topics_csv)
 }
