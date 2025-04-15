@@ -158,7 +158,7 @@ rownames(UK_doc_metadata) <- docnames(UK_dfm_speeches_corpus)
 
 # Now run STM with the proper metadata: 
 set.seed(123)
-UK_stm_model <- stm(UK_dfm_speeches_corpus, K = 20, max.em.its = 10, data = UK_doc_metadata)
+UK_stm_model <- stm(UK_dfm_speeches_corpus, K = 20, max.em.its = 15, data = UK_doc_metadata)
 
 # Plot STM: 
 plot(UK_stm_model)
@@ -184,6 +184,8 @@ topic_summary <- data.frame(
 topic_summary <- topic_summary[order(topic_summary$Probability, decreasing = TRUE), ]
 rownames(topic_summary) <- NULL
 view(topic_summary)
+
+write_csv(topic_summary, "green_policy_text_stm.csv")
 
 ################################################################################
 
@@ -257,7 +259,7 @@ rownames(UK_agenda_metadata) <- docnames(UK_dfm_agenda_corpus)
 
 # Now run STM with the proper metadata: 
 set.seed(123)
-UK_agenda_stm_model <- stm(UK_dfm_agenda_corpus, K = 20, max.em.its = 10, data = UK_agenda_metadata)
+UK_agenda_stm_model <- stm(UK_dfm_agenda_corpus, K = 20, max.em.its = 15, data = UK_agenda_metadata)
 
 # Plot STM: 
 plot(UK_agenda_stm_model)
@@ -283,6 +285,8 @@ agenda_topic_summary <- data.frame(
 agenda_topic_summary <- agenda_topic_summary[order(agenda_topic_summary$Probability, decreasing = TRUE), ]
 rownames(agenda_topic_summary) <- NULL
 View(agenda_topic_summary)
+
+write_csv(agenda_topic_summary, "green_policy_agenda_stm.csv")
 
 # Key Findings:
 
