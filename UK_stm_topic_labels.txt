@@ -1,0 +1,129 @@
+Topic Words:
+ Topic 1: pension_fund, bank_england, monetari, treasuri_committe, balanc_sheet, bust, taxat 
+ Topic 2: sustain_develop, public_consult, plan_process, environment_impact, impact_assess, plan_system, landscap 
+ Topic 3: aw_lot, â_œwell, â_œwhat, maiden_speech, ask_â, œwhat, thing_go 
+ Topic 4: plastic, pollut, bag, bottl, recycl, landfil, wast 
+ Topic 5: committe_climat, pari, tackl_climat, climat, climat_chang, planet, temperatur 
+ Topic 6: bill_hon, measur_bill, bill_provid, welcom_bill, part_bill, member_bill, privat_member 
+ Topic 7: fossil_fuel, fossil, solar, energi_secur, grid, power_station, electr_generat 
+ Topic 8: marin, ocean, sea, maritim, foreign_polici, island, territori 
+ Topic 9: environ_agenci, district_council, plan_author, local_resid, new_hous, local_economi, coastal 
+ Topic 10: cent_per, rate_per, per_cent, cent, target_per, pre-budget, increas_per 
+ Topic 11: livestock, meat, crop, agricultur_polici, agricultur, food, common_agricultur 
+ Topic 12: gentleman_mention, gentleman_said, sever_hon, gentleman_also, gentleman_right, gentleman_made, gentleman_ask 
+ Topic 13: innovat_skill, busi_innovat, innovat, industri_strategi, world-class, depart_busi, creat_job 
+ Topic 14: leav_eu, presid, european_council, multilater, foreign_polici, eu, summit 
+ Topic 15: shoot, illeg, law_enforc, antisoci, antisoci_behaviour, crimin_offenc, irish 
+ Topic 16: west_midland, tunnel, midland, freight, main_line, depart_transport, lane 
+ Topic 17: friend_awar, friend_refer, friend_mention, contribut_hon, friend_also, member_st, friend_know 
+ Topic 18: environment_audit, audit_committe, day_debat, committe_recommend, report_govern, committe_report, member_committe 
+ Topic 19: household, poverti, low-incom, poorest, vulner_peopl, peopl_access, aid 
+ Topic 20: apprenticeship, primari_school, state_educat, child, secondari_school, child_care, free_school 
+ 
+ Covariate Words:
+ Group Adaptation: varieti, sustain, take_step, environment, high_level, grown, resili 
+ Group Mitigation: longer-term, help_reduc, combin, govern_announc, coalit, substanti, polici 
+ Group Mixed: global_warm, carbon_emiss, reduc_carbon, intens, environment, sustain, warm 
+ Group NA: compound, numer, becom_increas, throughout, particular_concern, primarili, six 
+ 
+ Topic-Covariate Interactions:
+ Topic 1, Group Adaptation: minimum_wage, thatcher, leader_opposit, get_work, cost_live, public_spend, invest_â 
+ Topic 1, Group Mitigation: fuel_duti, freez, rate_per, broadband, tax_increas, council_tax, duti 
+ Topic 1, Group Mixed: band, governor, classic, assumpt, consumpt, domest_product, competit_market 
+ Topic 1, Group NA: fsa, bet, lender, offshor, fair_trade, ltd, depart_trade 
+ 
+ Topic 2, Group Adaptation: forest, offset, habitat, speci, corridor, precious, state_environ 
+ Topic 2, Group Mitigation: wind_farm, turbin, onshor, offshor_wind, wind, offshor, tidal 
+ Topic 2, Group Mixed: recreat, o'clock, econom_social, speci, assur_hon, stewardship, provid_inform 
+ Topic 2, Group NA: northern_ireland, ireland, northern, belfast, decommiss, permiss_mr, green_paper 
+ 
+ Topic 3, Group Adaptation: multin, tender, southwark, star, tourist, deal_issu, catastroph 
+ Topic 3, Group Mitigation: obes, databas, cloth, possess, stroud, elector, rubbish 
+ Topic 3, Group Mixed: qualiti_life, sympathet, agenda, dri, minist_know, pattern, passport 
+ Topic 3, Group NA: footbal, fan, club, leagu, sunday, god, atmospher 
+ 
+ Topic 4, Group Adaptation: forest, tree, paint, wood, bristol, tax_system, veteran 
+ Topic 4, Group Mitigation: electr, petrol, diesel, buse, cell, taxat, vehicl 
+ Topic 4, Group Mixed: forest, utilis, crop, wood, rape, cook, oil 
+ Topic 4, Group NA: cent_per, increas_per, cent_increas, per_cent, cent, rate_per, target_per 
+ 
+ Topic 5, Group Adaptation: dfid, world_bank, develop_goal, bilater, asia, donor, africa 
+ Topic 5, Group Mitigation: chang_levi, depart_energi, gas_emiss, fossil, reduc_carbon, carbon_emiss, greenhous 
+ Topic 5, Group Mixed: c, busi_communiti, busi_committe, backbench_busi, fund_support, backbench, weather 
+ Topic 5, Group NA: tax_cut, incom_tax, tax_increas, public_spend, tax_rate, shadow_chancellor, billion_â 
+ 
+ Topic 6, Group Adaptation: countrysid, boat, wildlif, biodivers, dorset, recreat, vessel 
+ Topic 6, Group Mitigation: milton_keyn, milton, pack, keyn, new_build, theatr, multipl 
+ Topic 6, Group Mixed: bath, sold, streamlin, welfar, red_tape, cross-parti_support, rule 
+ Topic 6, Group NA: crimin_offenc, court, ombudsman, financ_bill, marriag, european_court, human_right 
+ 
+ Topic 7, Group Adaptation: water, river, new_deal, thame, paper, white_paper, one_side 
+ Topic 7, Group Mitigation: load, wave, nuclear, decommiss, nuclear_power, legaci, divers 
+ Topic 7, Group Mixed: hous_stock, boom, onshor, substant, major_peopl, offshor_wind, load 
+ Topic 7, Group NA: environ_food, food_rural, rural_affair, dairi, supermarket, defra, farmer 
+ 
+ Topic 8, Group Adaptation: commonwealth, chines, israel, foreign_commonwealth, commonwealth_office, religi, religion 
+ Topic 8, Group Mitigation: environ_agenci, speci, scientif, flood, warm, global_warm, bird 
+ Topic 8, Group Mixed: speci, thame, wildlif, biodivers, derbyshir, bird, recreat 
+ Topic 8, Group NA: veteran, helicopt, raf, personnel, soldier, troop, logist 
+ 
+ Topic 9, Group Adaptation: tidal, sea, trauma, coast, levi, consult_document, transport_infrastructur 
+ Topic 9, Group Mitigation: stafford, co-op, enterpris, youngster, stoke-on-tr, sport, staffordshir 
+ Topic 9, Group Mixed: bay, colleg, govern_go, turbin, coast, wave, hazard 
+ Topic 9, Group NA: plan_system, landlord, southend, metropolitan, elder_peopl, sustain_develop, govern_hon 
+ 
+ Topic 10, Group Adaptation: diesel, billion_â, new_deal, inflat, â_week, downturn, comprehens_spend 
+ Topic 10, Group Mitigation: landfil, recycl, white_paper, wast, tonn, white, rubbish 
+ Topic 10, Group Mixed: downturn, civil_servic, hous_market, cautious, world_trade, state_work, euro 
+ Topic 10, Group NA: nhs_england, nhs, patient_care, clinician, pct, health_social, pcts 
+ 
+ Topic 11, Group Adaptation: cap, price, premium, ludicr, ombudsman, supplier, norfolk 
+ Topic 11, Group Mitigation: state_environ, forest, sustain_develop, rural_affair, world_bank, food_rural, g8 
+ Topic 11, Group Mixed: neil, cap, meal, clark, harri, hill, d 
+ Topic 11, Group NA: iran, muslim, russia, russian, tortur, turkey, palestinian 
+ 
+ Topic 12, Group Adaptation: lewisham, north_east, stoke-on-tr, hors, stafford, wright, issu_discuss 
+ Topic 12, Group Mitigation: hackney, lewisham, simon, bolton, steve, keyn, jack 
+ Topic 12, Group Mixed: maiden, govern_member, outbreak, secur_import, tribut_hon, vale, toni 
+ Topic 12, Group NA: member_kingston, learn_friend, hon_learn, mr_clark, thank_right, dispatch_box, rais_point 
+ 
+ Topic 13, Group Adaptation: garden, scienc_technolog, bolton, scottish_govern, scienc, ring-fenc, public_money 
+ Topic 13, Group Mitigation: oil_gas, coal, decommiss, storag, oil, north_sea, captur 
+ Topic 13, Group Mixed: green, rhetor, floor, clean, leed, transit, due_cours 
+ Topic 13, Group NA: olympic, media_sport, cultur_media, art, bbc, sport, creativ 
+ 
+ Topic 14, Group Adaptation: decommiss, fleet, fishermen, fisheri, fish, stock, north_sea 
+ Topic 14, Group Mitigation: aviat, emiss_trade, airlin, aircraft, flight, ship, russia 
+ Topic 14, Group Mixed: g8, bush, develop_world, pakistan, world_bank, africa, corrupt 
+ Topic 14, Group NA: common_agricultur, agricultur_polici, scottish_parliament, scottish_govern, snp, scottish_nation, scottish 
+ 
+ Topic 15, Group Adaptation: bird, speci, hunt, habitat, wildlif, burn, red 
+ Topic 15, Group Mitigation: swansea, welsh_assembl, welsh, assembl, scottish_govern, devolv, scottish 
+ Topic 15, Group Mixed: qualif, chapter, servic_local, provid_â, analysi, provinc, devic 
+ Topic 15, Group NA: polic_author, neighbourhood, overcrowd, west_midland, mobil_phone, custodi, probat 
+ 
+ Topic 16, Group Adaptation: raf, maiden_speech, maiden, pub, member_birmingham, region_develop, mod 
+ Topic 16, Group Mitigation: carbon_emiss, tourism, devolut, fund_local, econom_growth, commiss_report, bradford 
+ Topic 16, Group Mixed: camp, bedfordshir, staffordshir, cabl, height, shift, vision 
+ Topic 16, Group NA: postal, mobil_phone, island, radio, phone, bank_account, underground 
+ 
+ Topic 17, Group Adaptation: lancashir, leicest, surrey, member_east, weather, need_work, work_local 
+ Topic 17, Group Mitigation: excit, mission, co-op, norwich, support_hon, friend_agre, barrier 
+ Topic 17, Group Mixed: tree, plant, forest, landscap, hunt, stafford, dorset 
+ Topic 17, Group NA: strangford_jim, jim_shannon, shannon, member_strangford, strangford, made_hon, maiden 
+ 
+ Topic 18, Group Adaptation: crop, affair_committe, modifi, defra, rural_affair, rape, food_rural 
+ Topic 18, Group Mitigation: love_one, office_nation, nation_statist, fragment, employment, â_œyou, economist 
+ Topic 18, Group Mixed: bag, defra, foot_mouth, member_east, sheffield, environ_food, food_rural 
+ Topic 18, Group NA: elector, voter, ballot, bishop, poll, democraci, polit_parti 
+ 
+ Topic 19, Group Adaptation: humanitarian, hiv, aids, civil_societi, human_right, infect, peac 
+ Topic 19, Group Mitigation: fuel_poverti, insul, meter, energi_compani, energi_effici, hous_stock, ofgem 
+ Topic 19, Group Mixed: snp, retent, relief, save_live, wellb, inequ, govern_plan 
+ Topic 19, Group NA: child_poverti, jobcentr, child_care, disabl_peopl, lone, legal_aid, tax_credit 
+ 
+ Topic 20, Group Adaptation: cook, divis, holiday, nation_parti, nhs_trust, fruit, childhood 
+ Topic 20, Group Mitigation: million_â, billion_â, front-lin, billion_year, civil_servic, back_work, total_â 
+ Topic 20, Group Mixed: tax_rate, pay_tax, corpor_tax, bust, fuel_duti, freez, revenu_custom 
+ Topic 20, Group NA: children_young, kid, mani_young, bulli, fund_formula, ofsted, attain 
+ 
