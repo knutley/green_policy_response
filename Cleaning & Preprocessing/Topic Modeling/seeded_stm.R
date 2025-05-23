@@ -59,6 +59,57 @@ adaptation_terms <- c(
   "agroecology", "soil conservation", "sustainable fisheries", "ocean governance",
   "water conservation", "climate-resilient farming"
 )
+# I went back through these with a fine tooth comb, and I think the following changes might be worth considering: 
+# 4. Define Mitigation and Adaptation Dictionaries
+# mitigation_terms <- c(
+# "greenhouse gas", "GHG emissions", "carbon emissions", "carbon footprint",
+#  "carbon neutrality", "carbon sequestration", "carbon offsetting", "carbon sink",
+#  "carbon pricing", "carbon levy", "carbon credit", "carbon trading", "methane emissions",
+#  "CO2 reduction", "net zero", "zero-carbon economy", "low-carbon economy", "global warming",
+#  "climate mitigation policy", "climate mitigation",
+#  "renewable energy", "clean energy", "solar power", "wind power", "hydropower",
+#  "geothermal energy", "bioenergy", "tidal energy", "wave energy", "sustainable energy",
+#  "energy transition", "green energy", "low-carbon energy", "off-grid solutions",
+#  "energy efficiency", "clean technology", "green technology", "energy conservation",
+#  "fossil fuel phase-out", "coal phase-out", "oil dependency", "fossil fuel divestment",
+#  "decarbonization", "transition away from fossil fuels", "energy decarbonization",
+#  "clean transportation", "electric vehicles", "green transportation", "hydrogen economy",
+#  "carbon tax", "net-zero commitments", "carbon capture and storage", "direct air capture", "circular economy", "deforestation", "afforestation", “sustainable supply chains” , "climate finance", "green finance", "climate investment"
+#)
+
+# adaptation_terms <- c(
+#  "climate adaptation", "climate resilience", "adaptive capacity", "climate vulnerability",
+#  "vulnerability assessment", "climate-resilient development", "climate-proofing",
+#  "climate risk management", "disaster risk reduction", "early warning systems",
+#  "resilient infrastructure", "coastal protection", "sea level rise adaptation",
+#  "flood protection", "drought management", "heat resilience", "urban adaptation",
+#  "climate-resilient agriculture", "climate-resilient infrastructure", "nature-based solutions",
+#  "ecosystem-based adaptation", "resilient ecosystems", "resilient cities",
+#  "climate insurance", "climate risk insurance", "adaptation finance", "adaptation funding",
+#  "national adaptation plan", "local adaptation plan", "community-based adaptation",
+#  "climate migration", "climate displacement", "managed retreat", "climate refugees",
+#  "biodiversity", "biodiversity loss", "ecosystem collapse", "ecosystem restoration",
+#  "environmental degradation", "reforestation", 
+#  "forest conservation", "land degradation", "land-use change", "habitat destruction",
+#  "wildlife conservation", "marine protection", "ocean conservation", "coral bleaching",
+#  "ocean acidification", "plastic pollution", "sustainable forestry", "land restoration",
+#  "loss and damage", "climate-induced loss", "climate-induced damage", "compensation for loss and damage",
+#  "climate reparations", "climate risk insurance", "financial mechanisms for climate loss",
+#  "climate finance", "green finance", "climate investment", "sustainable investment",
+#  "sustainable development finance", "green economy", 
+# "climate-resilient infrastructure", "green stimulus",
+#  "sustainable agriculture", "climate-smart agriculture", "regenerative agriculture",
+#  "food security", "water security", "drought resilience", "flood-resilient crops",
+#  "agroecology", "soil conservation", "sustainable fisheries", "ocean governance",
+#  "water conservation", "climate-resilient farming"
+# )
+
+# Changes I made: 
+# -	Moved “circular economy” from adaptation to mitigation
+# -	Moved “deforestation” and “afforestation” from adaptation to mitigation 
+# -	Moved “sustainable supply chains” from adaptation to mitgation 
+# -	Added "climate finance", "green finance", "climate investment" to mitigation too as per my own understanding
+
 
 # 5. Create Document-Feature Matrix with Preprocessing
 # Create corpus
