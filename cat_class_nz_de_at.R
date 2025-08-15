@@ -137,13 +137,16 @@ saveRDS(df_NZ, "scored_NZ.rds")
 
 ### Germany ### 
 
-# 1. Load the filtered data 
-df_DE <- readRDS("~/Documents/GitHub/green_policy_response/filtered_DE.rds") 
+library(dplyr)
+library(stringi)
 
-# 2. Set Seed for Reproducability 
-set.seed(123)
+# 1. Load the data
+df_DE <- readRDS("~/Downloads/Corp_Bundestag_V2.rds") # I had to use unfiltered
+# here because there was an issue when I pushed the filtered through the code above.
+# Decided to basically strip it back, normalise the language and then run the adapt/
+# mitigate code. 
 
-# 3. Define Mitigation and Adaptation Dictionaries
+# 2. Define Mitigation and Adaptation Dictionaries
 mitigation_terms_de <- c(
   "Treibhausgas", "Treibhausgasemissionen", "CO₂-Emissionen", "CO₂-Fußabdruck",
   "Klimaneutralität", "Kohlenstoffbindung", "CO₂-Kompensation", "Kohlenstoffsenke",
@@ -187,68 +190,24 @@ adaptation_terms_de <- c(
   "Wasserschutz", "klimaresiliente Landwirtschaft"
 )
 
-# 4. Create Document-Feature Matrix with Preprocessing
-# Create corpus
-DE_corpus <- quanteda::corpus(df_DE$text, docnames = df_DE$doc_id)
+# 3. Normalise text
+df_DE <- df_DE %>%
+  mutate(text = stri_trans_general(text, "Latin-ASCII"),
+         text = stri_trim_both(text),
+         text_lower = tolower(text))
 
-# Create German custom stopwords
-DE_custom_stopwords_vector <- c(stopwords("de"), 
-                                'auch', 'oder', 'bzw', 'sowie', 'damit', 'dazu', 
-                                'dabei', 'hierbei', 'dafür', 'dadurch', 'somit',
-                                'jedoch', 'dennoch', 'allerdings', 'hingegen',
-                                'zudem', 'außerdem', 'ebenso', 'weiterhin',
-                                'übrigens', 'schließlich', 'letztlich', 'eigentlich',
-                                'natürlich', 'tatsächlich', 'wirklich', 'eben',
-                                'halt', 'mal', 'gar', 'ganz', 'sehr', 'eher',
-                                'etwa', 'circa', 'ca', 'usw', 'etc', 'bspw', 'z.b')
+# 4. Fast vectorized term counting
+count_terms_vectorized <- function(texts, terms) {
+  rowSums(sapply(terms, function(term) stri_count_fixed(texts, tolower(term))))
+} 
 
-# Process tokens
-DE_tokens <- DE_corpus %>%
-  tokens(remove_punct = TRUE, remove_symbols = TRUE, remove_numbers = TRUE) %>%
-  tokens_remove(DE_custom_stopwords_vector) %>%
-  tokens_wordstem()
-
-# Create n-grams
-DE_tokens_ngrams <- tokens_ngrams(DE_tokens, n = c(1, 2))
-
-# Create DFM
-DE_dfm_speeches_corpus <- DE_tokens_ngrams %>%
-  dfm() %>%
-  dfm_tolower() %>%
-  dfm_trim(min_termfreq = 10, min_docfreq = 0.005, docfreq_type = "prop")
-
-# 5. Create Category Variables 
-
-# Function to count term occurrences in a text
-count_term_occurrences <- function(text, terms) {
-  text_lower <- tolower(text)
-  sum(sapply(terms, function(term) str_count(text_lower, fixed(term))))
-}
-
-# Add mitigation and adaptation scores to dataframe
+# 5. Score and label
 df_DE <- df_DE %>%
   mutate(
-    mitigation_score = sapply(text, function(t) count_term_occurrences(t, mitigation_terms_de)),
-    adaptation_score = sapply(text, function(t) count_term_occurrences(t, adaptation_terms_de)),
-    # Create normalized scores (0-1 range)
-    mitigation_norm = mitigation_score / (mitigation_score + adaptation_score + 0.001), # Adding small constant to avoid division by zero
+    mitigation_score = count_terms_vectorized(text_lower, mitigation_terms_de),
+    adaptation_score = count_terms_vectorized(text_lower, adaptation_terms_de),
+    mitigation_norm = mitigation_score / (mitigation_score + adaptation_score + 0.001),
     adaptation_norm = adaptation_score / (mitigation_score + adaptation_score + 0.001),
-    # Create categorical variables
-    primary_focus = case_when(
-      mitigation_score > adaptation_score ~ "Mitigation",
-      adaptation_score > mitigation_score ~ "Adaptation",
-      TRUE ~ "Mixed"
-    )
-  )
-
-table(df_DE$primary_focus) #Right, there's an issue here in that it's not finding 
-# any of the mitigate/adapt terms. 
-
-df_DE <- df_DE %>%
-  mutate(
-    mitigation_score = sapply(text, function(t) count_term_occurrences(t, mitigation_terms_de)),
-    adaptation_score = sapply(text, function(t) count_term_occurrences(t, adaptation_terms_de)),
-    # Create categorical variables
     primary_focus = case_when(
       mitigation_score > 0 & adaptation_score == 0 ~ "Mitigation",
       adaptation_score > 0 & mitigation_score == 0 ~ "Adaptation",
@@ -257,85 +216,40 @@ df_DE <- df_DE %>%
     )
   )
 
-View(df_DE) 
-table(df_DE$primary_focus)
+View(df_DE) # Oh my sweet baby jesus, this worked. 
 
-# 6. Save the Scored Data 
+table(df_DE$primary_focus) # Check to make sure this isn't scuppered. 
 
-saveRDS(df_DE, "scored_DE.rds") 
+# Save
+saveRDS(df_DE, "scored_DE.rds")
 
 ################################################################################
 
 ### Austria ### 
 
 # 1. Load the filtered data 
-df_AT <- readRDS("~/Documents/GitHub/green_policy_response/filtered_AT.rds") 
+df_AT <- readRDS("~/Downloads/Corp_Nationalrat_V2.rds") # Also used the unfiltered data here.  
 
-# 2. Set Seed for Reproducability 
-set.seed(123)
+# 2. Normalise text
+df_AT <- df_AT %>%
+  mutate(text = stri_trans_general(text, "Latin-ASCII"),
+         text = stri_trim_both(text),
+         text_lower = tolower(text))
 
-# 3. Create Document-Feature Matrix with Preprocessing
+# We can skip the load terms, because Austrians also speak German. 
 
-# Create corpus
-AT_corpus <- quanteda::corpus(df_AT$text, docnames = df_AT$doc_id)
-
-# Create German custom stopwords
-AT_custom_stopwords_vector <- c(stopwords("de"), 
-                                'auch', 'oder', 'bzw', 'sowie', 'damit', 'dazu', 
-                                'dabei', 'hierbei', 'dafür', 'dadurch', 'somit',
-                                'jedoch', 'dennoch', 'allerdings', 'hingegen',
-                                'zudem', 'außerdem', 'ebenso', 'weiterhin',
-                                'übrigens', 'schließlich', 'letztlich', 'eigentlich',
-                                'natürlich', 'tatsächlich', 'wirklich', 'eben',
-                                'halt', 'mal', 'gar', 'ganz', 'sehr', 'eher',
-                                'etwa', 'circa', 'ca', 'usw', 'etc', 'bspw', 'z.b')
-
-
-# Process tokens
-AT_tokens <- AT_corpus %>%
-  tokens(remove_punct = TRUE, remove_symbols = TRUE, remove_numbers = TRUE) %>%
-  tokens_remove(AT_custom_stopwords_vector) %>%
-  tokens_wordstem()
-
-# Create n-grams
-AT_tokens_ngrams <- tokens_ngrams(AT_tokens, n = c(1, 2))
-
-# Create DFM
-AT_dfm_speeches_corpus <- AT_tokens_ngrams %>%
-  dfm() %>%
-  dfm_tolower() %>%
-  dfm_trim(min_termfreq = 10, min_docfreq = 0.005, docfreq_type = "prop")
-
-# 5. Create Category Variables 
-
-# Function to count term occurrences in a text
-count_term_occurrences <- function(text, terms) {
-  text_lower <- tolower(text)
-  sum(sapply(terms, function(term) str_count(text_lower, fixed(term))))
+# 3. Fast vectorised term counting
+count_terms_vectorized <- function(texts, terms) {
+  rowSums(sapply(terms, function(term) stri_count_fixed(texts, tolower(term))))
 }
 
-# Add mitigation and adaptation scores to dataframe
+# 4. Score and label
 df_AT <- df_AT %>%
   mutate(
-    mitigation_score = sapply(text, function(t) count_term_occurrences(t, mitigation_terms)),
-    adaptation_score = sapply(text, function(t) count_term_occurrences(t, adaptation_terms)),
-    # Create normalized scores (0-1 range)
-    mitigation_norm = mitigation_score / (mitigation_score + adaptation_score + 0.001), # Adding small constant to avoid division by zero
+    mitigation_score = count_terms_vectorized(text_lower, mitigation_terms_de),
+    adaptation_score = count_terms_vectorized(text_lower, adaptation_terms_de),
+    mitigation_norm = mitigation_score / (mitigation_score + adaptation_score + 0.001),
     adaptation_norm = adaptation_score / (mitigation_score + adaptation_score + 0.001),
-    # Create categorical variables
-    primary_focus = case_when(
-      mitigation_score > adaptation_score ~ "Mitigation",
-      adaptation_score > mitigation_score ~ "Adaptation",
-      TRUE ~ "Mixed"
-    )
-  )
-View(df_AT) 
-
-df_AT <- df_AT %>%
-  mutate(
-    mitigation_score = sapply(text, function(t) count_term_occurrences(t, mitigation_terms)),
-    adaptation_score = sapply(text, function(t) count_term_occurrences(t, adaptation_terms)),
-    # Create categorical variables
     primary_focus = case_when(
       mitigation_score > 0 & adaptation_score == 0 ~ "Mitigation",
       adaptation_score > 0 & mitigation_score == 0 ~ "Adaptation",
@@ -344,12 +258,15 @@ df_AT <- df_AT %>%
     )
   )
 
-View(df_AT) 
+View(df_AT) # Looking good. 
+
 table(df_AT$primary_focus)
 
-# 6. Save the Scored Data 
-
-saveRDS(df_AT, "scored_AT.rds") 
-
+# 5. Save EVERYTHING .
+saveRDS(df_AT, "scored_AT.rds")
 
 
+table(df$primary_focus)
+table(df_NZ$primary_focus)
+table(df_DE$primary_focus)
+table(df_AT$primary_focus)
