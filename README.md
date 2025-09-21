@@ -1,3 +1,5 @@
+**THIS REPO IS NOW DEFUNCT**
+
 # 🇬🇧 green_policy_response
 
 This repository supports the research paper _Environmental Protest and Legislative Response_ by Elisa D'Amico, Katie Nutley, and Aarushi Sharma.
