@@ -155,3 +155,13 @@ Please download and place .rds files in `data/raw/` locally. `.gitignore` ensure
 - [ ] Merge multilingual datasets
 - [ ] Write unit tests in test/
 - [ ] Optional: create interactive Shiny dashboard for visualisation
+
+## Contribution Taxonomy (forthcoming)
+
+**Elisa D'Amico:** 
+-
+
+**Katie Nutley:* 
+- 
+
+**Aarushi Sharma:** 
