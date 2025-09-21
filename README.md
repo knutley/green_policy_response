@@ -161,7 +161,7 @@ Please download and place .rds files in `data/raw/` locally. `.gitignore` ensure
 **Elisa D'Amico:** 
 -
 
-**Katie Nutley:* 
+**Katie Nutley:**
 - 
 
 **Aarushi Sharma:** 
